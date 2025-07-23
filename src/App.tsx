@@ -1,10 +1,8 @@
 import Portfolio from "./Portfolio"
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <>
-      <Portfolio />
-    </>
+    <Portfolio />
   )
 }
 
