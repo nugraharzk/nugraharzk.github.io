@@ -1,1 +1,131 @@
 @import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/archivo-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo Black';
+  src: url('/fonts/archivo-black-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --paper: #fbf6e9;
+  --card: #fffdf7;
+  --ink: #0b0b0c;
+  --muted: #4f4a42;
+  --shadow: #0b0b0c;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #0d0d10;
+  --card: #17171c;
+  --ink: #f4f0e4;
+  --muted: #b3ada4;
+  --shadow: rgb(244 240 228 / 0.26);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-display: 'Archivo Black', 'Arial Black', ui-sans-serif, sans-serif;
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Consolas', monospace;
+
+  --color-bg: var(--paper);
+  --color-card: var(--card);
+  --color-fg: var(--ink);
+  --color-muted: var(--muted);
+
+  --color-acid: #d9ff3d;
+  --color-noir: #0b0b0c;
+  --color-cream: #fbf6e9;
+
+  --shadow-brutal-sm: 3px 3px 0 0 var(--shadow);
+  --shadow-brutal: 6px 6px 0 0 var(--shadow);
+  --shadow-brutal-lg: 10px 10px 0 0 var(--shadow);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a[href],
+  button:not(:disabled),
+  summary,
+  label[for],
+  select,
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+
+  ::selection {
+    background: #d9ff3d;
+    color: #0b0b0c;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  mark {
+    background: var(--color-acid);
+    color: #0b0b0c;
+    padding: 0 0.25em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+
+  @variant md {
+    -webkit-text-stroke-width: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
