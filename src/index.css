@@ -122,6 +122,16 @@
   }
 }
 
+@utility text-outline-invert {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--paper);
+  paint-order: stroke fill;
+
+  @variant md {
+    -webkit-text-stroke-width: 3px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
-import { profile, specRows } from '../data'
+import { profile } from '../data'
 import { useWibClock } from '../hooks/useWibClock'
+import { useI18n } from '../hooks/useI18n'
 
 const links = [
   { label: 'github', href: profile.links.github },
@@ -9,19 +10,27 @@ const links = [
 ]
 
 export default function SpecPanel() {
+  const { t } = useI18n()
   const time = useWibClock()
+
+  const rows = [
+    { label: t.spec.role, value: t.spec.values.role },
+    { label: t.spec.focus, value: t.spec.values.focus },
+    { label: t.spec.zone, value: t.spec.values.zone },
+    { label: t.spec.base, value: t.spec.values.base },
+  ]
 
   return (
     <aside
-      aria-label="Ringkasan profil"
+      aria-label={t.spec.aria}
       className="flex h-full flex-col border-[3px] border-fg bg-card"
     >
       <h2 className="border-b-[3px] border-fg bg-fg px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-bg">
-        profil
+        {t.spec.title}
       </h2>
 
       <dl className="flex flex-1 flex-col divide-y-2 divide-fg/15">
-        {specRows.map((row) => (
+        {rows.map((row) => (
           <div
             key={row.label}
             className="flex flex-1 items-baseline justify-between gap-4 px-4 py-3.5"
@@ -34,7 +43,7 @@ export default function SpecPanel() {
         ))}
         <div className="flex flex-1 items-baseline justify-between gap-4 px-4 py-3.5">
           <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-            waktu
+            {t.spec.time}
           </dt>
           <dd className="text-right text-[14px] font-medium tabular-nums">{time} wib</dd>
         </div>

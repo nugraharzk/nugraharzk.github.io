@@ -60,6 +60,17 @@
             : window.matchMedia('(prefers-color-scheme: dark)').matches
           document.documentElement.classList.toggle('dark', dark)
         } catch (e) {}
+
+        try {
+          var storedLocale = localStorage.getItem('locale')
+          var locale =
+            storedLocale === 'id' || storedLocale === 'en'
+              ? storedLocale
+              : (navigator.language || 'id').toLowerCase().indexOf('en') === 0
+                ? 'en'
+                : 'id'
+          document.documentElement.lang = locale
+        } catch (e) {}
       })()
     </script>
   </head>

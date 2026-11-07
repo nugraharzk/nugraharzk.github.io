@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, Check, Copy, Mail } from 'lucide-react'
 import { profile } from '../data'
+import { useI18n } from '../hooks/useI18n'
 import { GithubIcon, GitlabIcon, LinkedinIcon } from './BrandIcons'
 
 const socials = [
@@ -9,13 +10,8 @@ const socials = [
   { label: 'GitLab', href: profile.links.gitlab, Icon: GitlabIcon },
 ]
 
-const meta = [
-  { label: 'basis', value: 'bandung, id' },
-  { label: 'zona', value: 'wib, utc+7' },
-  { label: 'terbuka', value: 'project, role frontend' },
-]
-
 export default function Contact() {
+  const { t } = useI18n()
   const [status, setStatus] = useState<'idle' | 'copied' | 'manual'>('idle')
   const emailRef = useRef<HTMLParagraphElement>(null)
 
@@ -44,24 +40,29 @@ export default function Contact() {
     }
   }
 
+  const meta = [
+    { label: t.contact.meta.base, value: t.spec.values.base },
+    { label: t.contact.meta.zone, value: t.spec.values.zone },
+    { label: t.contact.meta.open, value: t.contact.openValue },
+  ]
+
   return (
     <section id="contact" className="border-t-[3px] border-fg bg-acid text-noir">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-noir/70">
-          kontak
+          {t.contact.eyebrow}
         </p>
 
         <div className="mt-4 lg:grid lg:grid-cols-[1.4fr_0.6fr] lg:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2.4rem,8.5vw,5.5rem)] uppercase leading-[0.85] tracking-[-0.04em]">
-              ada ide?
+              {t.contact.line1}
               <br />
-              gas bikin.
+              {t.contact.line2}
             </h2>
 
             <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-noir/75">
-              Mau ngobrol soal project, role frontend, atau tanya kenapa
-              layout-nya geser 1px. Email gw kebuka.
+              {t.contact.lead}
             </p>
           </div>
 
@@ -82,7 +83,7 @@ export default function Contact() {
               className="inline-flex min-h-11 items-center gap-2 border-[3px] border-noir bg-cream px-4 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-noir shadow-[5px_5px_0_0_#0b0b0c] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_#0b0b0c] active:translate-x-0 active:translate-y-0 active:shadow-none"
             >
               <Mail className="size-4" aria-hidden="true" />
-              kirim email
+              {t.contact.send}
               <ArrowUpRight className="size-4" aria-hidden="true" />
             </a>
 
@@ -94,17 +95,17 @@ export default function Contact() {
               {status === 'copied' ? (
                 <>
                   <Check className="size-3.5" aria-hidden="true" />
-                  email tersalin
+                  {t.contact.copied}
                 </>
               ) : status === 'manual' ? (
                 <>
                   <Check className="size-3.5" aria-hidden="true" />
-                  tinggal ctrl+c
+                  {t.contact.manual}
                 </>
               ) : (
                 <>
                   <Copy className="size-3.5" aria-hidden="true" />
-                  salin email
+                  {t.contact.copy}
                 </>
               )}
             </button>

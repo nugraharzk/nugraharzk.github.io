@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { nav, profile } from '../data'
+import { profile, sections } from '../data'
+import { useI18n } from '../hooks/useI18n'
 
 type Item = {
   id: string
@@ -13,6 +14,7 @@ type Props = {
 }
 
 export default function CommandPalette({ onClose }: Props) {
+  const { t } = useI18n()
   const [query, setQuery] = useState('')
   const [active, setActive] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -31,11 +33,11 @@ export default function CommandPalette({ onClose }: Props) {
     }
 
     return [
-      ...nav.map((item) => ({
-        id: item.href,
-        label: `ke ${item.label}`,
-        hint: item.href,
-        action: go(item.href),
+      ...sections.map((section) => ({
+        id: section.href,
+        label: `${t.palette.goTo} ${t.nav[section.key]}`,
+        hint: section.href,
+        action: go(section.href),
       })),
       {
         id: 'github',
@@ -56,7 +58,7 @@ export default function CommandPalette({ onClose }: Props) {
         action: open(profile.links.gitlab),
       },
     ]
-  }, [onClose])
+  }, [onClose, t])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -86,7 +88,7 @@ export default function CommandPalette({ onClose }: Props) {
       className="fixed inset-0 z-50 flex items-start justify-center bg-noir/60 p-4 pt-[12vh]"
       role="dialog"
       aria-modal="true"
-      aria-label="Pencarian cepat"
+      aria-label={t.palette.title}
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}
@@ -116,8 +118,8 @@ export default function CommandPalette({ onClose }: Props) {
               setQuery(event.target.value)
               setActive(0)
             }}
-            placeholder="cari section atau link"
-            aria-label="Cari"
+            placeholder={t.palette.placeholder}
+            aria-label={t.ui.search}
             className="w-full bg-transparent font-mono text-[13px] outline-none placeholder:text-muted"
           />
           <kbd className="hidden border-2 border-fg px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-widest text-muted sm:block">
@@ -128,7 +130,7 @@ export default function CommandPalette({ onClose }: Props) {
         <ul className="max-h-[52vh] overflow-y-auto">
           {filtered.length === 0 ? (
             <li className="px-4 py-8 text-center font-mono text-[11px] uppercase tracking-widest text-muted">
-              nggak ada hasil buat "{query}"
+              {t.palette.empty(query)}
             </li>
           ) : (
             filtered.map((item, index) => (
@@ -155,9 +157,9 @@ export default function CommandPalette({ onClose }: Props) {
         </ul>
 
         <div className="flex items-center gap-4 border-t-[3px] border-fg bg-card px-4 py-2 font-mono text-[9.5px] uppercase tracking-[0.12em] text-muted">
-          <span>↑↓ pilih</span>
-          <span>enter buka</span>
-          <span className="ml-auto">esc tutup</span>
+          <span>{t.palette.move}</span>
+          <span>{t.palette.open}</span>
+          <span className="ml-auto">{t.palette.close}</span>
         </div>
       </div>
     </div>
